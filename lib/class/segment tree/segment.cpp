@@ -1,4 +1,4 @@
-int64_t upd(int type, int a, int b){
+int64_t s_up(int type, int a, int b){
     switch (type){
         case 1:
             return max(a, b);
@@ -21,10 +21,11 @@ int64_t upd(int type, int a, int b){
         case 7:
             return __gcd(a, b);
             break;
-        case 8: 
+        case 8:
             return a * b;
             break;
     }
+    return 0;
 }
 
 class SegmentTree
@@ -48,7 +49,7 @@ public:
         int mid = (l + r) / 2;
         tree_build(a, v * 2, l, mid);
         tree_build(a, v * 2 + 1, mid + 1, r);
-        tree [v] = upd(type, tree [v * 2], tree [v * 2 + 1]);
+        tree [v] = s_up(type, tree [v * 2], tree [v * 2 + 1]);
     }
     void tree_build(int a [], int v, int l, int r)
     {
@@ -60,7 +61,7 @@ public:
         int mid = (l + r) / 2;
         tree_build (a, v * 2, l, mid);
         tree_build (a, v * 2 + 1, mid + 1, r);
-        tree [v] = upd(type, tree [v * 2], tree [v * 2 + 1]);
+        tree [v] = s_up(type, tree [v * 2], tree [v * 2 + 1]);
     }
     void tree_update(int v, int l, int r, int where, int what)
     {
@@ -74,7 +75,7 @@ public:
             tree_update(v * 2, l, mid, where, what);
         else
             tree_update(v * 2 + 1, mid + 1, r, where, what);
-        tree [v] = upd(type, tree [v * 2], tree [v * 2 + 1]);
+        tree [v] = s_up(type, tree [v * 2], tree [v * 2 + 1]);
     }
     int tree_request(int v, int l, int r, int rl, int rr)
     {
@@ -86,6 +87,6 @@ public:
         if (l == rl && r == rr)
             return tree [v];
         int mid = (l + r) / 2;
-        return upd(type, tree_request(v * 2, l, mid, rl, min(mid, rr)), tree_request(v * 2 + 1, mid + 1, r, max(mid + 1, rl), rr));
+        return s_up(type, tree_request(v * 2, l, mid, rl, min(mid, rr)), tree_request(v * 2 + 1, mid + 1, r, max(mid + 1, rl), rr));
     }
 };
