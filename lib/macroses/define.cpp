@@ -1,5 +1,22 @@
-#define int int64_t
-#define double long double
+//#define LONG
+#define FASTREADWRITE
+//#define KOTLIN
+//#define DEBUG
+//#define FILE
+//#define MATH
+//#define TESTS
+
+#ifdef LONG
+    #define int int64_t
+    #define double long double
+#endif
+
+#ifdef DEBUG
+    #pragma GCC optimize("O3")
+    #pragma GCC target ("avx2")
+    #pragma GCC optimize("trapv")
+#endif
+
 #define F first
 #define S second 
 #define pb push_back
