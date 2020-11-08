@@ -1,41 +1,42 @@
-class sqrtdecomp 
+class decomposition
 {
-    public:
-        int len;
-        deque <int> a, b;
-        sqrtdecomp(int n, deque <int> v);
-        void insert(int where, int what)
+#include <cmath>
+#include <array>
+    static const int LEN_ = 1e3;
+    static const int MSZ_ = 1e6;
+    int len;
+    array <int, LEN_> dec{};
+    array<int, MSZ_> main_ar{};
+public:
+    template<typename T>
+    decomposition(int sz, T inp){
+        len = (int)sqrt(sz) + 1;
+        for(int it = 0; it < sz; it++)
+            main_ar[it] = inp[it];
+        for (int i = 0; i < sz; ++i)
+            dec[i / len] += inp[i];
+    }
+    void insert(int dest, int delta){
+        main_ar[dest] += delta;
+        dec [dest / len] += delta;
+    }
+    int request(int l, int r){
+        int sum = 0;
+        int l_block = l / len,   r_block = r / len;
+        if (l_block == r_block)
         {
-            b [where / len] -= a [where];
-            b [where / len] += what; 
-            a [where] = what;
+            for (int i = l; i <= r; ++i)
+                sum += main_ar[i];
         }
-        int request(int l, int r)
+        else
         {
-            int sum = 0;
-            int c_l = l / len,   c_r = r / len;
-            if (c_l == c_r)
-            {
-                for (int i = l; i <= r; ++i)
-                    sum += a[i];
-            }
-            else 
-            {
-                for (int i=l, end=(c_l+1)*len-1; i<=end; ++i)
-                    sum += a[i];
-                for (int i=c_l+1; i<=c_r-1; ++i)
-                    sum += b[i];
-                for (int i=c_r*len; i<=r; ++i)
-                    sum += a[i];
-            }
+            for (int it=l, end=(l_block+1)*len-1; it<=end; ++it)
+                sum += main_ar[it];
+            for (int it=l_block+1; it<=r_block-1; ++it)
+                sum += dec[it];
+            for (int it=r_block*len; it<=r; ++it)
+                sum += main_ar[it];
         }
+        return sum;
+    }
 };
-
-sqrtdecomp::sqrtdecomp(int n, deque <int> v)
-{
-    a = v;
-    len = (int) sqrt (n + .0) + 1;
-    b.resize(len);
-    for (int i = 0; i < n; ++i)
-        b[i / len] += a[i];
-}
