@@ -1,11 +1,11 @@
 class segment
 {
 private:
-    static const int N = 1e5;
-    short type = 1;
-    array <long long, 4 * N + 4> tree{};
-    int left = 0, right = N - 1;
-    long long act(long long f, long long s){
+    static const int N = 1e5; //MAX_SIZE of segment tree
+    short type = 1;//Type of operation
+    array <long long, 4 * N + 4> tree{};//Segment tree
+    int left = 0, right = N - 1;//left and right border of input array
+    long long act(long long f, long long s){ // An operation, which we are going count in segment tree
         switch (type){
             case 1:
                 return max(f, s);
@@ -14,11 +14,11 @@ private:
             case 3:
                 return f + s;
             case 4:
-                return f ^ s;
+                return (unsigned)f ^ (unsigned)s;
             case 5:
-                return f | s;
+                return (unsigned)f | (unsigned)s;
             case 6:
-                return f & s;
+                return (unsigned)f & (unsigned)s;
             case 7:
                 return __gcd(f, s);
             case 8:
@@ -27,8 +27,7 @@ private:
                 return -1;
         }
     }
-    void update(int v, int tl, int tr, int idx, int new_val)
-    {
+    void update(int v, int tl, int tr, int idx, int new_val){//updates value (new_val) on index (idx)
         if (tl == tr)
         {
             tree [v] = new_val;
@@ -41,7 +40,7 @@ private:
             update(v * 2 + 1, tm + 1, tr, idx, new_val);
         tree [v] = act(tree [v * 2], tree [v * 2 + 1]);
     }
-    long long request(int v, int tl, int tr, int l, int r){
+    long long request(int v, int tl, int tr, int l, int r){//finds type (sum, min, max...) on segment from l to r
         if (l > r)
             return -1;
         if (tl == l && tr == r)
@@ -61,8 +60,7 @@ private:
         return ans;
     }
     template<typename T>
-    void tree_build(T &in, int v, int tl, int tr)
-    {
+    void tree_build(T &in, int v, int tl, int tr){//builds segment tree
         if (tl == tr)
         {
             tree [v] = in [tl];
@@ -74,6 +72,7 @@ private:
         tree [v] = act(tree [v * 2], tree [v * 2 + 1]);
     }
 public:
+#define N SEG_MAX_SIZE
     explicit segment(short tp){
         type = tp;
     }
