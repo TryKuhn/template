@@ -3,62 +3,29 @@ class segment
 private:
     static const int N = 1e5;
     short type = 1;
-    int len = N;
-    array<int, N> a{};
     array <long long, 4 * N + 4> tree{};
+    int left = 0, right = N - 1;
     long long act(long long f, long long s){
         switch (type){
             case 1:
                 return max(f, s);
-                break;
             case 2:
                 return min(f, s);
-                break;
             case 3:
                 return f + s;
-                break;
             case 4:
                 return f ^ s;
-                break;
             case 5:
                 return f | s;
-                break;
             case 6:
                 return f & s;
-                break;
             case 7:
                 return __gcd(f, s);
-                break;
             case 8:
                 return f * s;
-                break;
             default:
                 return -1;
         }
-        return 0;
-    }
-    void do_build(int v, int tl, int tr){
-        if (tl == tr)
-        {
-            tree [v] = a [tl];
-            return;
-        }
-        int tm = (tl + tr) / 2;
-        do_build(v * 2, tl, tm);
-        do_build(v * 2 + 1, tm + 1, tr);
-        tree [v] = act(tree [v * 2], tree [v * 2 + 1]);
-    }
-public:
-    segment(int tp, int ln){
-        type = tp;
-        len = ln;
-    }
-    template<typename T>
-    void build(T in, int v, int tl, int tr)
-    {
-        for(int i = tl; i <= tr; i++)
-            a[i] = in[i];
-        do_build(v, tl, tr);
     }
     void update(int v, int tl, int tr, int idx, int new_val)
     {
@@ -92,5 +59,33 @@ public:
                 ans = request(v * 2 + 1, tm + 1, tr, nl, nr);
         }
         return ans;
+    }
+    template<typename T>
+    void tree_build(T &in, int v, int tl, int tr)
+    {
+        if (tl == tr)
+        {
+            tree [v] = in [tl];
+            return;
+        }
+        int tm = (tl + tr) / 2;
+        tree_build(in, v * 2, tl, tm);
+        tree_build(in, v * 2 + 1, tm + 1, tr);
+        tree [v] = act(tree [v * 2], tree [v * 2 + 1]);
+    }
+public:
+    explicit segment(short tp){
+        type = tp;
+    }
+    template<typename T>
+    void build(T &in){
+        right = in.size() - 1;
+        tree_build(in, 1, left, right);
+    }
+    void set(int idx, int new_val){
+        update(1, left, right, idx, new_val);
+    }
+    long long get(int l, int r){
+        return request(1, left, right, l, r);
     }
 };
