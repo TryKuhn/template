@@ -1,145 +1,93 @@
-class segment_tree{
-private:
-    template <typename T>
-    static T merge_sort(T a1, T a2)
-    {
-        deque <int> a3 (a1.size() + a2.size());
-        int i = 0, j = 0;
-        int len = a3.size();
-        for (int k = 0; k < len; k++)
-        {
-            if (i >= a1.size())
-            {
-                int a = a2[j];
-                a3[k] = a;
-                j++;
-            }
-            else if (j >= a2.size())
-            {
-                int a = a1[i];
-                a3[k] = a;
-                i++;
-            }
-            else if (a1[i] < a2[j])
-            {
-                int a = a1[i];
-                a3[k] = a;
-                i++;
-            }
-            else
-            {
-                int b = a2[j];
-                a3[k] = b;
-                j++;
-            }
+class segment{
+    short type = 1;//Type of operation
+    int left = 0, right = 0;
+    long long act(long long f, long long s){ // An operation, which we are going to count in segment tree
+        switch (type){
+            case 1:
+                return max(f, s);
+            case 2:
+                return min(f, s);
+            case 3:
+                return f + s;
+            case 4:
+                return (unsigned)f ^ (unsigned)s;
+            case 5:
+                return (unsigned)f | (unsigned)s;
+            case 6:
+                return (unsigned)f & (unsigned)s;
+            case 7:
+                return __gcd(f, s);
+            case 8:
+                return f * s;
+            default:
+                return -1;
         }
-        return a3;
-    }
-    static int binsearch(deque <int> a, int what){
-        int count;
-        int l = 0, r = a.size() - 1, m = (l + r) / 2;
-        while(l < r){
-            if (a [m] > what)
-                r = m - 1;
-            else if (a [m] < what)
-                l = m + 1;
-            else if (a [m] == what)
-                l = r = m;
-        }
-        count = max(0LL, a.size() - l - 1);
-        if (a [m] == what)
-            count++;
-        return count;
     }
     struct vertex{
-    public:
-        bool init = false;
-        deque <int> a;
-        vertex(){
-            init = false;
-            a.clear();
-        }
-        vertex* son_left{};
-        vertex* son_right{};
-    protected:
-        void build (int left, int right, vertex* now, deque <int> * in){
-            if (left == right){
-                (now->a).push_back((*in) [left]);
-                return;
-            }
-            now->init = true;
-            int mid = (left + right) / 2;
-            now->son_left = new vertex();
-            now->son_right = new vertex();
-            build(left, mid, now->son_left, in);
-            build(mid + 1, right, now->son_right, in);
-            now->a = merge_sort(now->son_left->a, now->son_right->a);
-        }
-    public:
-        void init_f(deque <int> in, int left, int right, vertex* now){
-            if (in.size() == 1){
-                this->a = in;
-                return;
-            }
-            else{
-                now->init = true;
-                int mid = (left + right) / 2;
-                son_left = new vertex;
-                son_right = new vertex;
-                son_left->a.clear();
-                build(left, mid, son_left, &in);
-                son_right->a.clear();
-                build(mid + 1, right, son_right, &in);
-                now->a = merge_sort(son_left->a, son_right->a);
-            }
-        }
-        void print(vertex* now){
-            if (init){
-                println_container(now->son_left->a);
-                if(now->son_left->init)
-                    this->print(now->son_left);
-                println_container(now->son_right->a);
-                if (now->son_right->init)
-                    this->print(now->son_right);
-            }
-            else
-                return;
-        }
-        int get (vertex* v, int tl, int tr, int l, int r, int what) {
-            if (l > r)
-                return 0;
-            if (l == tl && r == tr)
-                return binsearch(v->a, what);
-            int tm = (tl + tr) / 2;
-            return get (v->son_left, tl, tm, l, min(r,tm), what) + get (v->son_right, tm+1, tr, max(l,tm+1), r, what);
-        }
-        void set(int left, int right, int what, int where, vertex* now){
-            if (left == right){
-                now->a.clear();
-                now->a.push_back(what);
-                return;
-            }
-            int mid = (left + right) / 2;
-            if (where <= mid)
-                set(left, mid, what, where, now->son_left);
-            else
-                set(mid + 1, right, what, where, now->son_right);
-            now->a = merge_sort(now->son_left->a, now->son_right->a);
-        }
+        long long val = 0;
+        vertex* left_son{};
+        vertex* right_son{};
     };
-    vertex* start = new vertex{};
 public:
-    void build(const deque <int>& a){
-        this->start->init_f(a, 0, a.size() - 1, start);
+    vertex* node = new vertex;
+    template<typename T>
+    void tree_build(T &a, vertex* v, int tl, int tr){
+        if (tl == tr){
+            v->val = a[tl];
+            return;
+        }
+        v->left_son = new vertex();
+        v->right_son = new vertex();
+        int tm = (tl + tr) / 2;
+        tree_build(a, v->left_son, tl, tm);
+        tree_build(a, v->right_son, tm + 1, tr);
+        v->val = act((v->left_son)->val, (v->right_son)->val);
     }
-    int get(int left, int right, int what){
-        return start->get(start, 0LL, start->a.size() - 1, left, right, what);
+    void update(vertex* v, int tl, int tr, int idx, int new_val){
+        if (tl == tr){
+            v->val = new_val;
+            return;
+        }
+        int tm = (tl + tr) / 2;
+        if (tm >= idx)
+            update(v->left_son, tl, tm, idx, new_val);
+        else
+            update(v->right_son, tm + 1, tr, idx, new_val);
+        v->val = act((v->left_son)->val, (v->right_son)->val);
     }
-    void set(int what, int where){
-        start->set(0, start->a.size() - 1, what, where, start);
+    long long request(vertex* v, int tl, int tr, int l, int r){
+        if (l > r)
+            return -1;
+        if (l == tl && r == tr)
+            return v->val;
+        long long ans = LLONG_MAX;
+        int tm = (tl + tr) / 2;
+        int nl = l, nr = min(r, tm);
+        if (nl <= nr)
+            ans = request(v->left_son, tl, tm, nl, nr);
+        nl = max(l, tm + 1), nr = r;
+        if (nl <= nr){
+            if (ans != LLONG_MAX)
+                ans = act(ans, request(v->right_son, tm + 1, tr, nl, nr));
+            else
+                ans = request(v->right_son, tm + 1, tr, nl, nr);
+        }
+        return ans;
     }
-    void print(){
-        println_container(start->a);
-        start->print(start);
+public:
+#define SEG_MAX 100000
+    explicit segment(short tp){
+        type = tp;
+    }
+    template<typename T>
+    void build(T &in){
+        right = in.size() - 1;
+        tree_build(in, node, left, right);
+    }
+    void set(int idx, int new_val){
+        update(node, left, right, idx, new_val);
+    }
+    long long get(int l, int r){
+        return request(node, left, right, l, r);
     }
 };
