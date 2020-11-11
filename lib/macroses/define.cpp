@@ -1,29 +1,20 @@
-//#define LONG
-#define FASTREADWRITE
-//#define KOTLIN
-//#define DEBUG
-//#define FILE
-//#define MATH
-//#define TESTS
+#define FILE
+#define LONG
+#define MATH
+#define FASTER
 
-#ifdef LONG
-    #define int int64_t
-    #define double long double
-#endif
-
-#ifdef DEBUG
-    #pragma GCC optimize("O3")
-    #pragma GCC target ("avx2")
-    #pragma GCC optimize("trapv")
-#endif
-
+#define all(a) (a).begin(), (a).end()
 #define F first
-#define S second 
+#define S second
 #define pb push_back
 #define pf push_front
 #define ppb pop_back();
 #define ppf pop_front();
-#define For(n) for(int (i) = 0; (i) < n; (i)++)
-#define FOR(i, n) for(i; i < n; i++)
+#define For(r) for(int i = 0; i < r; i++)
+#define FOR(l, r) for(int i = l; i <= r; i++)
 #define YES cout << "YES\n";
 #define NO cout << "NO\n";
+
+#ifdef LONG
+    #define int long long
+#endif
