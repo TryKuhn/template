@@ -11,8 +11,8 @@ int32_t main(){
     ifstream fin("input.txt");
     ofstream fout("output.txt");
 #endif
-    int test;
-    cin >> test;
+    int test = 1;
+    //cin >> test;
     while (test--)
         start();
 #ifdef FILE
