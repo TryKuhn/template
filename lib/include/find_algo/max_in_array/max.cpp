@@ -1,6 +1,7 @@
-int max_in_array(int n, di a)
+template <typename T>
+long long max_in_array(int n, T a)
 {
-    int mx = MIN;
+    long long mx = LLONG_MIN;
     for (int i = 0; i < n; i++)
         mx = max(mx, a [i]);
     return mx;
