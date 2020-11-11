@@ -1,13 +1,13 @@
 class decomposition
 {
-#include <cmath>
-#include <array>
+public:
+    static const int LEN_ = 1e3;
+    static const int MSZ_ = 1e6;
+private:
     int len;
     array <int, LEN_> dec{};
     array<int, MSZ_> main_ar{};
 public:
-    static const int LEN_ = 1e3;
-    static const int MSZ_ = 1e6;
     template<typename T>
     decomposition(int sz, T inp){//Builder
         len = (int)sqrt(sz) + 1;
