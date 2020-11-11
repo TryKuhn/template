@@ -1,19 +1,19 @@
-int binsearch(deque <int> where, int what)
+template <typename T>
+int bin_search(T in, int val)
 {
-    int left = 0, right = where.size() - 1;
-    int mid = (left + right) / 2;
-    while (where [mid] != what)
+    int l = 0, r = in.size() - 1;
+    while (l < r)
     {
-        mid = (left + right) / 2;
-        if (left == right)
-        {
-            mid = -1;
-            break;
-        }
-        if (where [mid] < what)
-            left = mid + 1;
+        int m = (l + r) / 2;
+        if (in [m] < val)
+            l = m + 1;
+        else if (in [m] > val)
+            r = m - 1;
         else
-            right = mid - 1;
+            l = m, r = m;
     }
-    return mid;
+    if (in[l] == val)
+        return l;
+    else
+        return -1;
 }
