@@ -1,35 +1,22 @@
-#ifdef KOTLIN
-template <typename T>
-void read(T &pr){
-    cin >> pr;
-}
+#define EASY_INPUT
 
-template <typename T>
-void read_container(T &pr){
-    for (auto &i: pr)
-        cin >> i;
-}
-
-template <typename T>
-void print_container(const T &pr){
-    for (auto &i: pr)
-        cout << i << " ";
-}
-
-template <typename T>
-void print(const T &pr){
-    cout << pr;
-}
-
-template <typename T>
-void println(const T &pr){
-    print(pr);
-    cout << "\n";
-}
-
-template <typename T>
-void println_container(const T &pr){
-    print_container(pr);
-    cout << "\n";
-}
+#ifdef EASY_INPUT
+    template <typename... T>
+    inline void read(T&... a){
+        ((std::cin >> a), ...);
+    }
+    template <typename T>
+    inline void read_container(T& a){
+        for(auto i: a)
+            cin >> i;
+    }
+    template <typename... T>
+    inline void print(T&... a){
+        ((std::cout << a << ' '),  ...);
+    }
+    template<typename T>
+    inline void print_container(T& a){
+        for(auto i: a)
+            cout << i << ' ';
+    }
 #endif
