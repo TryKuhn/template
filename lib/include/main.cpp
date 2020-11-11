@@ -1,3 +1,7 @@
+void start(){
+
+}
+
 int32_t main(){
 #ifdef FASTREADWRITE
     ios::sync_with_stdio(false);
@@ -10,7 +14,7 @@ int32_t main(){
     int test;
     cin >> test;
     while (test--)
-        new_test();
+        start();
 #ifdef FILE
     fin.close();
     fout.close();
