@@ -23,15 +23,14 @@ class segment{
                 return -1;
         }
     }
-    struct vertex{
+    struct vertex{//Vertex of the Segment tree
         long long val = 0;
         vertex* left_son{};
         vertex* right_son{};
     };
-public:
     vertex* node = new vertex;
     template<typename T>
-    void tree_build(T &a, vertex* v, int tl, int tr){
+    void tree_build(T &a, vertex* v, int tl, int tr){//Build of Segment tree
         if (tl == tr){
             v->val = a[tl];
             return;
@@ -43,7 +42,7 @@ public:
         tree_build(a, v->right_son, tm + 1, tr);
         v->val = act((v->left_son)->val, (v->right_son)->val);
     }
-    void update(vertex* v, int tl, int tr, int idx, int new_val){
+    void update(vertex* v, int tl, int tr, int idx, int new_val){//Setter
         if (tl == tr){
             v->val = new_val;
             return;
@@ -55,7 +54,7 @@ public:
             update(v->right_son, tm + 1, tr, idx, new_val);
         v->val = act((v->left_son)->val, (v->right_son)->val);
     }
-    long long request(vertex* v, int tl, int tr, int l, int r){
+    long long request(vertex* v, int tl, int tr, int l, int r){//Getter
         if (l > r)
             return -1;
         if (l == tl && r == tr)
