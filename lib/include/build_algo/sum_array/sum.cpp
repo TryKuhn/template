@@ -1,4 +1,5 @@
-int sum (deque <int> a)
+template <typename T>
+long long sum (T a)
 {
     int rezult = 0;
     for (auto i: a)
