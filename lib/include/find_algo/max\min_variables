@@ -1,3 +1,6 @@
+#define MAX_MIN
+
+#ifdef MAX_MIN
 template<typename T, typename... K>
 inline T umax(T& a, K&... b){
     return ((max(a, (T)b)), ...);
@@ -7,3 +10,4 @@ template<typename T, typename... K>
 inline T umin(T& a, K&... b){
     return ((min(a, (T)b)), ...);
 }
+#endif
