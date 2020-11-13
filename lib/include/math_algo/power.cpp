@@ -1,13 +1,13 @@
-int binpow(int x, int y)
+long long bin_pow(long long x, long long y)
 {
     if (y == 0)
         return 1;
     if (y & 1)
-        return x * binpow(x, y - 1);
+        return x * bin_pow(x, y - 1);
     else
     {
-        int z = binpow(x, y / 2);
-        return sqr(z);
+        long long z = bin_pow(x, y / 2);
+        return z * z;
     }
 }
 
