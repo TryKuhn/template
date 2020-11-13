@@ -1,9 +1,9 @@
-int tree_request(int v, int l, int r, int rl, int rr)
+long long get(int v, int l, int r, int tl, int tr)
 {
-    if (rl > rr)
+    if (l > r)
         return 0;
-    if (l == rl && r == rr)
+    if (l == tl && r == tr)
         return tree [v];
     int mid = (l + r) / 2;
-    return tree_request(v * 2, l, mid, rl, min(mid, rr)) + tree_request(v * 2 + 1, mid + 1, r, max(mid + 1, rl), rr);
+    return get(v * 2, l, min(r, tm), tl, tm) + get(v * 2 + 1, max(l, tm + 1), tm + 1, tr);
 }
