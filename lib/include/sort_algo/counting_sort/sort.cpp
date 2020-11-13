@@ -1,13 +1,22 @@
-di counting_sort(int n, int k, di v)
+template<typename T>
+void counting_sort(T& in, int n, int k = 1e5, bool greater = false)
 {
-    int a [k + 1] = {};
+    vector<int> a(k + 1);
     for (int i = 0; i < n; i++)
-        a [v [i]]++;
-    di rezult;
-    for (int i = 0; i <= k; i++)
-    {
-        while (a [i]--)
-            rezult.pb(i);
+        a [in [i]]++;
+    int r = 0;
+    if (greater){
+        for (int i = k; i >= 0; i--)
+        {
+            while (a [i]--)
+                in[r++] = i;
+        }
     }
-    return rezult;
+    else{
+        for (int i = 0; i <= k; i++)
+        {
+            while (a [i]--)
+                in[r++] = i;
+        }
+    }
 }
