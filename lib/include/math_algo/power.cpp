@@ -16,7 +16,7 @@ double binpow (double x, double y, bool d)
     return exp(y * log(x));
 }
 
-int sqr(int x)
+long long sqr(long long x)
 {
     return x * x;
 }
