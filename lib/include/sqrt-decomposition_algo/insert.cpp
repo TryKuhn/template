@@ -1,6 +1,4 @@
-void insert(int where, int what)
-{
-    b [where / len] -= a [where];
-    b [where / len] += what; 
-    a [where] = what;
+void set(int dest, int delta){//Setter
+    main_ar[dest] += delta;
+    dec [dest / len] += delta;
 }
