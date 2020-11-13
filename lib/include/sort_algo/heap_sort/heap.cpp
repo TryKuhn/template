@@ -1,26 +1,28 @@
-void heapify(int arr[], int n, int i)
+template <typename T>
+void heapify(T& in, int n, int i)
 {
-    int largest = i;   
+    int largest = i;
     int l = 2 * i + 1;
     int r = 2 * i + 2;
-    if (l < n && arr [l] > arr [largest])
+    if (l < n && in [l] > in [largest])
         largest = l;
-    if (r < n && arr[r] > arr[largest])
+    if (r < n && in[r] > in[largest])
         largest = r;
     if (largest != i)
     {
-        swap(arr[i], arr[largest]);
-        heapify(arr, n, largest);
+        swap(in[i], in[largest]);
+        heapify(in, n, largest);
     }
 }
 
-void heapSort(int arr[], int n)
+template <typename T>
+void heapSort(T& in, int n)
 {
     for (int i = n / 2 - 1; i >= 0; i--)
-        heapify(arr, n, i);
+        heapify(in, n, i);
     for (int i = n - 1; i >= 0; i--)
     {
-        swap(arr[0], arr[i]);
-        heapify(arr, i, 0);
+        swap(in[0], in[i]);
+        heapify(in, i, 0);
     }
 }
