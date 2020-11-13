@@ -1,14 +1,14 @@
-void tree_update(int v, int l, int r, int where, int what)
+void set(int v, int tl, int tr, int idx, int val)
 {
-    if (l == r)
+    if (tl == tr)
     {
-        tree [v] = what;
+        tree [v] = val;
         return;
     }
-    int mid = (l + r) / 2;
-    if (mid >= where)
-        tree_update(v * 2, l, mid, where, what);
+    int tm = (tl + tr) / 2;
+    if (tm >= where)
+        set(v * 2, l, tm, idx, val);
     else
-        tree_update(v * 2 + 1, mid + 1, r, where, what);
+        set(v * 2 + 1, tm + 1, r, idx, val);
     tree [v] = tree [v * 2] + tree [v * 2 + 1];
 }
