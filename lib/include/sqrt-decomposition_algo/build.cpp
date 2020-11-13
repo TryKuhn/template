@@ -1,7 +1,8 @@
-void build(int n, deque <int> a)
-{
-    int len = (int) sqrt (n + .0) + 1;
-    deque <int> b (len);
-    for (int i = 0; i < n; ++i)
-        b[i / len] += a[i];
+template<typename T>
+decomposition(int sz, T inp){//Builder
+    len = (int)sqrt(sz) + 1;
+    for(int it = 0; it < sz; it++)
+        main_ar[it] = inp[it];
+    for (int i = 0; i < sz; ++i)
+        dec[i / len] += inp[i];
 }
