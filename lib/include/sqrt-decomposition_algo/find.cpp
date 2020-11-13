@@ -1,19 +1,19 @@
-int request(int l, int r)
-{
+int get(int l, int r){//Getter
     int sum = 0;
-    int c_l = l / len,   c_r = r / len;
-    if (c_l == c_r)
+    int l_block = l / len,   r_block = r / len;
+    if (l_block == r_block)
     {
         for (int i = l; i <= r; ++i)
-            sum += a[i];
+            sum += main_ar[i];
     }
-    else 
+    else
     {
-        for (int i=l, end=(c_l+1)*len-1; i<=end; ++i)
-            sum += a[i];
-        for (int i=c_l+1; i<=c_r-1; ++i)
-            sum += b[i];
-        for (int i=c_r*len; i<=r; ++i)
-            sum += a[i];
+        for (int it=l, end=(l_block+1)*len-1; it<=end; ++it)
+            sum += main_ar[it];
+        for (int it=l_block+1; it<=r_block-1; ++it)
+            sum += dec[it];
+        for (int it=r_block*len; it<=r; ++it)
+            sum += main_ar[it];
     }
+    return sum;
 }
