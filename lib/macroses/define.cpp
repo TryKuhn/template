@@ -15,6 +15,10 @@
 #define YES cout << "YES\n";
 #define NO cout << "NO\n";
 
+#define setBit(S, j) (S |= (1 << j))
+#define clearBit(S, j) (S &= ~(1 << j))
+#define toggleBit(S, j) (S ^= (1 << j))
+
 #ifdef LONG
     #define int long long
 #endif
