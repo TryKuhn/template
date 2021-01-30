@@ -7,7 +7,7 @@
     }
     template <typename T>
     inline void read_container(T& a){
-        for(auto i: a)
+        for(auto &i: a)
             cin >> i;
     }
     template <typename... T>
